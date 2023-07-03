@@ -1,4 +1,4 @@
 FROM openjdk:19
-ADD ./api-abrsrvi.jar api-abrsrvi.jar
-ENTRYPOINT ["java","-jar","api-abrsrvi.jar"]
+ADD ./api-absrvi.jar api-absrvi.jar
+ENTRYPOINT ["java","-jar","api-absrvi.jar"]
 
