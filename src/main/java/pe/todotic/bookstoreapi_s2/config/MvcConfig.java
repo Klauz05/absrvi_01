@@ -13,7 +13,8 @@ public class MvcConfig {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
       registry.addMapping("/api/**")
-        .allowedOrigins("http://localhost:4200")
+        //.allowedOrigins("http://localhost:4200")
+        .allowedOrigins("https://absrvi01-production.up.railway.app")
         .allowedMethods("*")
         .exposedHeaders("*");
     }
