@@ -14,7 +14,7 @@ public class MvcConfig {
     public void addCorsMappings(CorsRegistry registry) {
       registry.addMapping("/api/**")
         //.allowedOrigins("http://localhost:4200")
-        .allowedOrigins("https://64a251d28cd57a3d26cb1c81--splendid-valkyrie-4d5308.netlify.app/")
+        .allowedOrigins("https://64a25d2ac002914b6e8b57dd--splendid-valkyrie-4d5308.netlify.app/")
         .allowedMethods("*")
         .exposedHeaders("*");
     }
