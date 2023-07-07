@@ -2,13 +2,17 @@ package pe.todotic.bookstoreapi_s2.web;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pe.todotic.bookstoreapi_s2.exception.BadRequestException;
 import pe.todotic.bookstoreapi_s2.model.Book;
+import pe.todotic.bookstoreapi_s2.model.Detresser;
 import pe.todotic.bookstoreapi_s2.model.Maeordser;
+import pe.todotic.bookstoreapi_s2.repository.DetresserRepository;
 import pe.todotic.bookstoreapi_s2.repository.MaeordserRepository;
+import pe.todotic.bookstoreapi_s2.service.FileSystemStorageService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +22,12 @@ import java.util.List;
 @AllArgsConstructor
 public class MaeordserController {
   private MaeordserRepository maeordserRepository;
-
+private DetresserRepository detresserRepository;
+private FileSystemStorageService fileSystemStorageService;
+  @GetMapping("/list/betweenDate/{fecIniSer},{fecFinSer}")
+  List<Maeordser> listBetweenDate(@PathVariable LocalDateTime fecIniSer, @PathVariable LocalDateTime fecFinSer) {
+    return maeordserRepository.findByFecIniSerGreaterThanEqualAndFecIniSerLessThanEqual(fecIniSer,fecFinSer);
+  }
   @GetMapping("/list")
   List<Maeordser> list() {
     return maeordserRepository.findAll();
@@ -87,5 +96,10 @@ maeordser.setValSer(form.getValSer());
     maeordser.setFecModReg(LocalDateTime.now());
 
     return maeordserRepository.save(maeordser);
+  }
+  @GetMapping("/downloadRes/{orderId}")
+  Resource downloadRes(@PathVariable Integer orderId){
+    Detresser detresser = detresserRepository.findOneByMaeordser_Id(orderId).orElseThrow(EntityNotFoundException::new);
+    return fileSystemStorageService.loadAsResource(detresser.getNomArcRes());
   }
 }

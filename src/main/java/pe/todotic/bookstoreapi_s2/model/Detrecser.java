@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 public class Detrecser {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Integer id;
-@Column(name = "obsrecser")
-private String obsRecSer;
-@Column(name = "fecreg")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+  @Column(name = "obsrecser")
+  private String obsRecSer;
+  @Column(name = "fecreg")
   private LocalDateTime fecReg;
   @Column(name = "fecmod")
   private LocalDateTime fecMod;
