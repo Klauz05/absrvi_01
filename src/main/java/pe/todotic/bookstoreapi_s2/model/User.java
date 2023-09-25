@@ -50,6 +50,8 @@ public class User {
 
   @Enumerated(EnumType.STRING)
   private ROLE role;
+  @Enumerated(EnumType.STRING)
+  private Acceso acceso;
 
   public enum ROLE {
     ADMIN,
@@ -59,6 +61,10 @@ public class User {
     CLIENT
   }
   public enum Estado {
+    ACTIVO,
+    INACTIVO
+  }
+  public enum Acceso {
     ACTIVO,
     INACTIVO
   }

@@ -21,6 +21,10 @@ import java.util.List;
 public class DetperserController {
   private DetperserRepository detperserRepository;
 
+  @GetMapping("/list")
+    List<Detperser> getAll() {
+      return detperserRepository.findAll();
+    }
   @GetMapping("/{id}")
   Detperser get(@PathVariable Integer id) {
     return detperserRepository.findById(id).orElseThrow(EntityNotFoundException::new);

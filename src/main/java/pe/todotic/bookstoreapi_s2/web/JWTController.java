@@ -26,35 +26,36 @@ import pe.todotic.bookstoreapi_s2.web.dto.AuthCredentials;
 @AllArgsConstructor
 public class JWTController {
 
-  private AuthenticationManagerBuilder authenticationManagerBuilder;
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
     private UserRepository userRepository;
-private TokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
-  @PostMapping("/authenticate")
-  ResponseEntity<AuthResponse> authenticate(@RequestBody AuthCredentials authCredentials) {
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-      authCredentials.getEmail(),
-      authCredentials.getPassword()
-    );
-    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String accessToken = tokenProvider.createToken(authentication);
+    @PostMapping("/authenticate")
+    ResponseEntity<AuthResponse> authenticate(@RequestBody AuthCredentials authCredentials) {
+      
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                authCredentials.getEmail(),
+                authCredentials.getPassword()
+        );
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String accessToken = tokenProvider.createToken(authentication);
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.AUTHORIZATION, "Bearer" + accessToken);
-    User user = userRepository.findOneByEmail(authCredentials.getEmail())
-      .orElseThrow(EntityNotFoundException::new);
-    return ResponseEntity
-      .ok()
-      .headers(headers)
-      .body(new AuthResponse(accessToken,user));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer" + accessToken);
+        User user = userRepository.findOneByEmail(authCredentials.getEmail())
+                .orElseThrow(EntityNotFoundException::new);
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(new AuthResponse(accessToken, user));
 
-  }
+    }
 
- @AllArgsConstructor
-  @Data
-  static class AuthResponse{
-    private String accessToken;
-    private User user;
-  }
+    @AllArgsConstructor
+    @Data
+    static class AuthResponse {
+        private String accessToken;
+        private User user;
+    }
 }
